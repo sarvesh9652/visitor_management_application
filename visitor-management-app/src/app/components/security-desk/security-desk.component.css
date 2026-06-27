@@ -3,13 +3,16 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-gap:16px;
+  gap: 16px;
+  min-width: 0;
 }
 
 .header-actions {
@@ -17,6 +20,7 @@ gap:16px;
   gap: 16px;
   flex-wrap: wrap;
   align-items: center;
+  min-width: 0;
 }
 
 .user-badge {
@@ -61,8 +65,9 @@ gap:16px;
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
+  min-width: 0;
 }
 
 .summary-card,
@@ -71,6 +76,7 @@ gap:16px;
   background: rgba(15, 23, 42, 0.95);
   border-radius: 24px;
   padding: 20px;
+  min-width: 0;
 }
 
 
@@ -92,13 +98,15 @@ gap:16px;
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   gap: 24px;
+  min-width: 0;
 }
 
 form {
   display: grid;
   gap: 16px;
+  min-width: 0;
 }
 
 label {
@@ -137,6 +145,7 @@ button:disabled {
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 24px;
+  min-width: 0;
 }
 
 .status-filter button {
@@ -217,6 +226,7 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .visitor-card-photo {
@@ -355,6 +365,12 @@ button:disabled {
 }
 
 @media (max-width: 900px) {
+  .dashboard-shell {
+    padding: 0;
+    gap: 18px;
+    overflow: visible;
+  }
+
   .summary-grid,
   .form-grid {
     grid-template-columns: 1fr;
@@ -367,6 +383,13 @@ button:disabled {
 
   .status-filter {
     justify-content: flex-start;
+    margin-bottom: 0;
+  }
+
+  .status-filter button {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 0;
+    padding-inline: 12px;
   }
 
   .camera-section {
@@ -379,8 +402,39 @@ button:disabled {
     width: 100%;
   }
 
-  .table-wrapper {
-    width: 100%;
-    overflow-x: auto;
+  .summary-card,
+  .form-card,
+  .list-card {
+    border-radius: 16px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-filter {
+    gap: 8px;
+  }
+
+  .status-filter button {
+    flex-basis: calc(50% - 8px);
+    padding: 10px 12px;
+  }
+
+  .visitor-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .visitor-card-photo {
+    min-width: 64px;
+    min-height: 64px;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+  }
+
+  .status {
+    padding: 7px 10px;
+    font-size: 0.82rem;
   }
 }
