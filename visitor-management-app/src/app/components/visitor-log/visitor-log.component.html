@@ -1,0 +1,36 @@
+<section class="dashboard-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Visitor Log</p>
+      <h2>Review all visitor activity</h2>
+    </div>
+    <nav class="top-nav">
+      <a routerLink="/" class="nav-link">Overview</a>
+      <a routerLink="/security-desk" class="nav-link">Security desk</a>
+      <a routerLink="/resident-approvals" class="nav-link">Resident approvals</a>
+    </nav>
+  </header>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Visitor</th>
+          <th>Resident</th>
+          <th>Purpose</th>
+          <th>Status</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visitor of visitorService.visitors()">
+          <td>{{ visitor.fullName }}</td>
+          <td>{{ visitor.residentName }} / {{ visitor.roomNumber }}</td>
+          <td>{{ visitor.purpose }}</td>
+          <td>{{ visitor.status }}</td>
+          <td>{{ visitor.createdAt | date:'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,105 @@
+<section class="dashboard-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Resident Approvals</p>
+      <h2>Approve or deny visitor requests</h2>
+    </div>
+    <div class="header-actions">
+      <span class="user-badge">
+        Signed in as {{ authService.currentUser()?.username }}
+        <small>({{ authService.currentUser()?.role }})</small>
+      </span>
+      <nav class="top-nav">
+        <a routerLink="/" class="nav-link">Overview</a>
+        <a routerLink="/security-desk" class="nav-link">Security desk</a>
+        <button type="button" class="logout-action" (click)="logout()">Sign out</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="table-card" *ngIf="visitorService.visitors().length; else empty">
+    <table class="visitor-table">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Purpose</th>
+          <th>Resident</th>
+          <th>Contact</th>
+          <th>ID</th>
+          <th>Notes</th>
+          <th>Status</th>
+          <th>Requested</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visitor of visitorService.visitors()">
+          <td class="photo-cell">
+            <img *ngIf="visitor.imageUrl; else imagePlaceholder" [src]="visitor.imageUrl" alt="{{ visitor.fullName }} photo" />
+            <ng-template #imagePlaceholder>
+              <span class="no-image">No image</span>
+            </ng-template>
+          </td>
+          <td>{{ visitor.fullName }}</td>
+          <td>{{ visitor.purpose }}</td>
+          <td>{{ visitor.residentName }} · {{ visitor.roomNumber }}</td>
+          <td>{{ visitor.contactNumber }}</td>
+          <td>{{ visitor.idType }} · {{ visitor.idNumber }}</td>
+          <td>{{ visitor.notes || 'No extra notes' }}</td>
+          <td>{{ visitor.status }}</td>
+          <td>{{ visitor.createdAt | date:'medium' }}</td>
+          <td class="action-cell">
+            <div class="actions" *ngIf="visitor.status === 'Pending'; else noActions">
+              <button class="approve" (click)="approve(visitor.id)">Approve</button>
+              <button class="deny" (click)="deny(visitor.id)">Deny</button>
+              <button class="expire" (click)="expire(visitor.id)">Expire</button>
+            </div>
+            <ng-template #noActions>
+              <span class="status-label">{{ visitor.status }}</span>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mobile-list" *ngIf="visitorService.visitors().length">
+    <div class="visitor-card" *ngFor="let visitor of visitorService.visitors()">
+      <div class="visitor-card-header">
+        <div class="visitor-card-photo">
+          <img *ngIf="visitor.imageUrl; else cardPlaceholder" [src]="visitor.imageUrl" alt="{{ visitor.fullName }} photo" />
+          <ng-template #cardPlaceholder>
+            <span class="no-image">No image</span>
+          </ng-template>
+        </div>
+        <div class="visitor-card-meta">
+          <strong>{{ visitor.fullName }}</strong>
+          <div class="small-note">{{ visitor.residentName }} · Room {{ visitor.roomNumber }}</div>
+        </div>
+        <span class="status status-{{ visitor.status.toLowerCase() }}">{{ visitor.status }}</span>
+      </div>
+      <div class="visitor-card-body">
+        <p><strong>Purpose:</strong> {{ visitor.purpose }}</p>
+        <p><strong>Contact:</strong> {{ visitor.contactNumber }}</p>
+        <p><strong>ID:</strong> {{ visitor.idType }} · {{ visitor.idNumber }}</p>
+        <p><strong>Notes:</strong> {{ visitor.notes || 'No extra notes' }}</p>
+        <p><strong>Requested:</strong> {{ visitor.createdAt | date:'medium' }}</p>
+      </div>
+      <div class="visitor-card-actions">
+        <div *ngIf="visitor.status === 'Pending'; else cardSummaryStatus" class="actions">
+          <button class="approve" (click)="approve(visitor.id)">Approve</button>
+          <button class="deny" (click)="deny(visitor.id)">Deny</button>
+          <button class="expire" (click)="expire(visitor.id)">Expire</button>
+        </div>
+        <ng-template #cardSummaryStatus>
+          <span class="status-label">{{ visitor.status }}</span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <p class="empty">No requests available.</p>
+  </ng-template>
+</section>

@@ -1,0 +1,41 @@
+<section class="auth-shell">
+  <div class="auth-card">
+    <p class="eyebrow">Create account</p>
+    <h1>Sign up</h1>
+    <p>Register a username, password, and role for access.</p>
+
+    <form (ngSubmit)="signup()">
+      <label>
+        Username
+        <input [(ngModel)]="username" name="username" required />
+      </label>
+
+      <label>
+        Password
+        <input type="password" [(ngModel)]="password" name="password" required />
+      </label>
+
+      <label>
+        Confirm password
+        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+      </label>
+
+      <fieldset>
+        <legend>Role</legend>
+        <label>
+          <input type="radio" name="role" [(ngModel)]="role" [value]="'Security'" />
+          Security
+        </label>
+        <label>
+          <input type="radio" name="role" [(ngModel)]="role" [value]="'Resident'" />
+          Resident
+        </label>
+      </fieldset>
+
+      <button type="submit">Create account</button>
+    </form>
+
+    <p class="note">Already have an account? <a routerLink="/login">Sign in</a></p>
+    <p class="message" *ngIf="message">{{ message }}</p>
+  </div>
+</section>

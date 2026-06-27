@@ -1,0 +1,164 @@
+<section class="dashboard-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Security Desk</p>
+      <h2>Register a visitor</h2>
+    </div>
+    <div class="header-actions">
+      <span class="user-badge">
+        Signed in as {{ authService.currentUser()?.username }}
+        <small>({{ authService.currentUser()?.role }})</small>
+      </span>
+      <nav class="top-nav">
+        <a routerLink="/" class="nav-link">Overview</a>
+        <a routerLink="/resident-approvals" class="nav-link">Resident approvals</a>
+        <button type="button" class="logout-action" (click)="logout()">Sign out</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="summary-grid" *ngIf="visitorService.visitors().length">
+    <article class="summary-card" [class.active]="selectedFilter === 'All'" (click)="selectFilter('All')">
+      <h3>{{ visitorService.getMetrics().total }}</h3>
+      <p>Total visitors</p>
+    </article>
+    <article class="summary-card" [class.active]="selectedFilter === 'Pending'" (click)="selectFilter('Pending')">
+      <h3>{{ visitorService.getMetrics().pending }}</h3>
+      <p>Pending</p>
+    </article>
+    <article class="summary-card" [class.active]="selectedFilter === 'Approved'" (click)="selectFilter('Approved')">
+      <h3>{{ visitorService.getMetrics().approved }}</h3>
+      <p>Approved</p>
+    </article>
+    <article class="summary-card" [class.active]="selectedFilter === 'Denied'" (click)="selectFilter('Denied')">
+      <h3>{{ visitorService.getMetrics().denied }}</h3>
+      <p>Denied</p>
+    </article>
+  </div>
+
+  <div class="status-filter">
+    <button type="button" [class.active]="selectedFilter === 'All'" (click)="selectFilter('All')">All</button>
+    <button type="button" [class.active]="selectedFilter === 'Pending'" (click)="selectFilter('Pending')">Pending</button>
+    <button type="button" [class.active]="selectedFilter === 'Approved'" (click)="selectFilter('Approved')">Approved</button>
+    <button type="button" [class.active]="selectedFilter === 'Denied'" (click)="selectFilter('Denied')">Denied</button>
+    <button type="button" [class.active]="selectedFilter === 'Expired'" (click)="selectFilter('Expired')">Expired</button>
+  </div>
+
+  <div class="form-grid">
+    <form class="form-card" (ngSubmit)="submitVisitor()" #visitorForm="ngForm">
+      <label>
+        Full name
+        <input [(ngModel)]="form.fullName" name="fullName" required />
+      </label>
+      <label>
+        Contact number
+        <input [(ngModel)]="form.contactNumber" name="contactNumber" required />
+      </label>
+      <label>
+        Purpose of visit
+        <input [(ngModel)]="form.purpose" name="purpose" required />
+      </label>
+      <label>
+        Resident name
+        <input [(ngModel)]="form.residentName" name="residentName" required />
+      </label>
+      <label>
+        Room number
+        <input [(ngModel)]="form.roomNumber" name="roomNumber" required />
+      </label>
+      <label>
+        ID type
+        <select [(ngModel)]="form.idType" name="idType">
+          <option>Emirates ID</option>
+          <option>Passport</option>
+          <option>Driver License</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>
+        ID number
+        <input [(ngModel)]="form.idNumber" name="idNumber" />
+      </label>
+      <label>
+        Notes
+        <textarea [(ngModel)]="form.notes" name="notes" rows="3"></textarea>
+      </label>
+      <div class="camera-section">
+        <button type="button" class="camera-button" (click)="openCamera()">Open Camera</button>
+        <button type="button" class="capture-button" (click)="capturePhoto()" [disabled]="!videoActive">Capture Photo</button>
+      </div>
+      <div class="camera-preview">
+        <video id="cameraPreview" #cameraPreview *ngIf="videoActive" autoplay muted playsinline></video>
+        <img *ngIf="capturedImage && !videoActive" [src]="capturedImage" alt="Captured visitor image" />
+        <div *ngIf="!capturedImage && !videoActive" class="camera-placeholder">No image captured</div>
+      </div>
+      <button type="submit" [disabled]="!visitorForm.valid">Register visitor</button>
+    </form>
+
+    <section class="list-card">
+      <h3>{{ selectedFilter === 'All' ? 'All visitors' : selectedFilter + ' requests' }}</h3>
+      <div class="empty" *ngIf="!filteredVisitors.length">No visitors found for this filter.</div>
+      <div class="table-wrapper" *ngIf="filteredVisitors.length">
+        <table class="visitor-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Resident</th>
+              <th>Purpose</th>
+              <th>Contact</th>
+              <th>Status</th>
+              <th>Requested</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let visitor of filteredVisitors">
+              <td>
+
+                <img *ngIf="visitor.imageUrl; else placeholder" [src]="visitor.imageUrl" alt="{{ visitor.fullName }}" class="visitor-photo" />
+                <ng-template #placeholder>
+                  <span class="photo-placeholder">No image</span>
+                </ng-template>
+              </td>
+              <td>
+                <strong>{{ visitor.fullName }}</strong>
+                <div class="small-note">{{ visitor.idType }} · {{ visitor.idNumber }}</div>
+              </td>
+              <td>{{ visitor.residentName }} · Room {{ visitor.roomNumber }}</td>
+              <td>{{ visitor.purpose }}</td>
+              <td>{{ visitor.contactNumber }}</td>
+              <td><span class="status status-{{ visitor.status.toLowerCase() }}">{{ visitor.status }}</span></td>
+              <td>{{ visitor.createdAt | date:'medium' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mobile-list" *ngIf="filteredVisitors.length">
+        <div class="visitor-card" *ngFor="let visitor of filteredVisitors">
+          <div class="visitor-card-header">
+            <div class="visitor-card-photo">
+              <img *ngIf="visitor.imageUrl; else cardPlaceholder" [src]="visitor.imageUrl" alt="{{ visitor.fullName }}" />
+              <ng-template #cardPlaceholder>
+                <span class="photo-placeholder">No image</span>
+              </ng-template>
+            </div>
+            <div class="visitor-card-meta">
+              <strong>{{ visitor.fullName }}</strong>
+              <span class="small-note">{{ visitor.residentName }} · Room {{ visitor.roomNumber }}</span>
+            </div>
+            <span class="status status-{{ visitor.status.toLowerCase() }}">{{ visitor.status }}</span>
+          </div>
+          <div class="visitor-card-body">
+            <p><strong>Purpose:</strong> {{ visitor.purpose }}</p>
+            <p><strong>Contact:</strong> {{ visitor.contactNumber }}</p>
+            <p><strong>ID:</strong> {{ visitor.idType }} · {{ visitor.idNumber }}</p>
+            <p><strong>Requested:</strong> {{ visitor.createdAt | date:'medium' }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <p class="feedback" *ngIf="message">{{ message }}</p>
+</section>

@@ -1,0 +1,391 @@
+.dashboard-shell {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.user-badge {
+  color: #cbd5e1;
+  font-weight: 700;
+}
+
+.eyebrow {
+  display: inline-flex;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.top-nav {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.logout-action {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.summary-card,
+.form-card,
+.list-card {
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid transparent;
+}
+
+.summary-card h3 {
+  font-size: 1.6rem;
+  margin: 0 0 6px;
+  color: #f8fafc;
+}
+
+.summary-card {
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.summary-card:hover,
+.summary-card.active {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 18px 40px rgba(56, 189, 248, 0.18);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+input,
+select,
+textarea,
+button {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  background: rgba(15, 23, 42, 0.85);
+  color: #e2e8f0;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.status-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.status-filter button {
+  background: rgba(96, 165, 250, 0.16);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.status-filter button.active {
+  background: #2563eb;
+  color: white;
+}
+
+.camera-section {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.camera-button,
+.capture-button {
+  background: rgba(96, 165, 250, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  color: #cbd5e1;
+}
+
+.camera-preview {
+  margin-bottom: 18px;
+}
+
+.camera-preview video,
+.camera-preview img {
+  width: 100%;
+  max-height: 320px;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.camera-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  width: 100%;
+  border-radius: 18px;
+  background: rgba(148, 163, 184, 0.08);
+  color: #94a3b8;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.visitor-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+  table-layout: auto;
+}
+
+.mobile-list {
+  display: none;
+}
+
+.visitor-card {
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 24px;
+  padding: 18px;
+  margin-top: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.visitor-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.visitor-card-photo {
+  min-width: 76px;
+  min-height: 76px;
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.visitor-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.visitor-card-meta {
+  flex: 1 1 150px;
+  min-width: 0;
+}
+
+.visitor-card-body {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.visitor-card-body p {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.visitor-card-actions {
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .table-wrapper {
+    display: none;
+  }
+
+  .mobile-list {
+    display: block;
+  }
+}
+
+.visitor-table th,
+.visitor-table td {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  vertical-align: middle;
+}
+
+.visitor-table th {
+  white-space: nowrap;
+}
+
+.visitor-table td {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.visitor-table th {
+  color: #e2e8f0;
+  font-weight: 700;
+}
+
+.visitor-photo {
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.photo-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  background: rgba(148, 163, 184, 0.08);
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.status-pending {
+  background: rgba(59, 130, 246, 0.16);
+  color: #bfdbfe;
+}
+
+.status-approved {
+  background: rgba(22, 163, 74, 0.16);
+  color: #a7f3d0;
+}
+
+.status-denied {
+  background: rgba(239, 68, 68, 0.16);
+  color: #fecaca;
+}
+
+.status-expired {
+  background: rgba(248, 196, 27, 0.16);
+  color: #fde68a;
+}
+
+.status-label {
+  color: #94a3b8;
+}
+
+.request-item {
+  display: none;
+}
+
+.feedback {
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+.empty {
+  color: #94a3b8;
+}
+
+@media (max-width: 900px) {
+  .summary-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status-filter {
+    justify-content: flex-start;
+  }
+
+  .camera-section {
+    flex-direction: column;
+  }
+
+  .camera-button,
+  .capture-button,
+  button[type='submit'] {
+    width: 100%;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
