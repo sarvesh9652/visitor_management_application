@@ -1,7 +1,8 @@
 {
   "version": 2,
   "buildCommand": "cd \"visitor-management-app\" && npm install && npm run build",
-  "outputDirectory": "visitor-management-app/dist/visitor-management-app",
+  "outputDirectory": "visitor-management-app/dist/visitor-management-app/browser",
+
   "rewrites": [
     {
       "source": "/(.*)",

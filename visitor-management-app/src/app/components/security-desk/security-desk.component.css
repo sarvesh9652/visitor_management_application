@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+gap:16px;
 }
 
 .header-actions {
@@ -61,7 +61,7 @@
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4,1fr);
   gap: 16px;
 }
 
@@ -216,8 +216,7 @@ button:disabled {
 .visitor-card-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .visitor-card-photo {
@@ -270,7 +269,8 @@ button:disabled {
 .visitor-table td {
   text-align: left;
   padding: 14px 12px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+
   vertical-align: middle;
 }
 
