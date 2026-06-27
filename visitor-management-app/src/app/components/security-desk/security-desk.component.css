@@ -26,14 +26,12 @@
 
 .eyebrow {
   display: inline-flex;
-  gap: 0.4rem;
   padding: 0.35rem 0.8rem;
   border-radius: 999px;
   background: rgba(56, 189, 248, 0.15);
   color: #7dd3fc;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-bottom: 4px;
 }
@@ -72,26 +70,23 @@
 .list-card {
   background: rgba(15, 23, 42, 0.95);
   border-radius: 24px;
-  padding: 24px;
-  border: 1px solid transparent;
+  padding: 20px;
 }
 
+
 .summary-card h3 {
-  font-size: 1.6rem;
   margin: 0 0 6px;
   color: #f8fafc;
 }
 
 .summary-card {
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .summary-card:hover,
 .summary-card.active {
   transform: translateY(-2px);
   border-color: rgba(59, 130, 246, 0.6);
-  box-shadow: 0 18px 40px rgba(56, 189, 248, 0.18);
   background: rgba(59, 130, 246, 0.12);
 }
 
