@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +12,7 @@ import { VisitorService } from '../../services/visitor.service';
   templateUrl: './security-desk.component.html',
   styleUrl: './security-desk.component.css'
 })
-export class SecurityDeskComponent {
+export class SecurityDeskComponent implements OnDestroy {
   @ViewChild('cameraPreview', { static: false }) cameraPreview?: ElementRef<HTMLVideoElement>;
   private pendingStream: MediaStream | null = null;
   form: { fullName: string; contactNumber: string; purpose: string; residentName: string; roomNumber: string; idType: string; idNumber: string; notes: string; imageUrl?: string | null } = {
@@ -45,33 +45,48 @@ export class SecurityDeskComponent {
     this.stopCamera();
   }
 
-  openCamera(): void {
+  async openCamera(): Promise<void> {
     if (!navigator.mediaDevices?.getUserMedia) {
       this.message = 'Camera is not supported in this browser.';
       return;
     }
 
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        this.videoActive = true;
-        this.message = null;
-        this.pendingStream = stream;
+    this.stopCamera();
+    this.message = 'Opening camera...';
 
-        setTimeout(() => {
-          const video = this.cameraPreview?.nativeElement;
-          if (!video) {
-            this.message = 'Camera preview not available.';
-            return;
-          }
-
-          video.srcObject = stream;
-          video.play();
-        });
-      })
-      .catch(() => {
-        this.message = 'Unable to access camera. Grant permission and try again.';
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: { ideal: 'environment' }
+        },
+        audio: false
       });
+
+      this.videoActive = true;
+      this.message = null;
+      this.pendingStream = stream;
+
+      setTimeout(async () => {
+        const video = this.cameraPreview?.nativeElement;
+        if (!video) {
+          this.message = 'Camera preview not available.';
+          this.stopCamera();
+          return;
+        }
+
+        video.srcObject = stream;
+
+        try {
+          await video.play();
+        } catch {
+          this.message = 'Camera opened, but preview could not start. Try again.';
+          this.stopCamera();
+        }
+      });
+    } catch (error) {
+      this.message = this.getCameraErrorMessage(error);
+      this.stopCamera();
+    }
   }
 
   capturePhoto(): void {
@@ -139,5 +154,23 @@ export class SecurityDeskComponent {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  ngOnDestroy(): void {
+    this.stopCamera();
+  }
+
+  private getCameraErrorMessage(error: unknown): string {
+    if (error instanceof DOMException) {
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        return 'Camera permission was denied. Allow camera access in app settings and try again.';
+      }
+
+      if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+        return 'No camera was found on this device.';
+      }
+    }
+
+    return 'Unable to access camera. Grant permission and try again.';
   }
 }
