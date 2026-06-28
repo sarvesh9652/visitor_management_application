@@ -34,9 +34,32 @@ export class LoginComponent {
       return;
     }
 
-    const returnUrl =
-      this.route.snapshot.queryParamMap.get('returnUrl') ||
-      (this.authService.currentRole === 'Security' ? '/security-desk' : '/resident-approvals');
-    this.router.navigateByUrl(returnUrl);
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    this.router.navigateByUrl(this.canOpenReturnUrl(returnUrl) ? returnUrl : this.getHomeRoute());
+  }
+
+  private getHomeRoute(): string {
+    switch (this.authService.currentRole) {
+      case 'Security':
+        return '/security-desk';
+      case 'Resident':
+        return '/resident-approvals';
+      case 'Admin':
+        return '/resident-master';
+      default:
+        return '/login';
+    }
+  }
+
+  private canOpenReturnUrl(returnUrl: string | null): returnUrl is string {
+    if (!returnUrl) {
+      return false;
+    }
+
+    return (
+      (this.authService.currentRole === 'Security' && returnUrl.startsWith('/security-desk')) ||
+      (this.authService.currentRole === 'Resident' && returnUrl.startsWith('/resident-approvals')) ||
+      (this.authService.currentRole === 'Admin' && returnUrl.startsWith('/resident-master'))
+    );
   }
 }

@@ -60,11 +60,21 @@
       </label>
       <label>
         Resident name
-        <input [(ngModel)]="form.residentName" name="residentName" required />
+        <input [(ngModel)]="form.residentName" name="residentName" required readonly />
       </label>
       <label>
-        Room number
-        <input [(ngModel)]="form.roomNumber" name="roomNumber" required />
+        Building No - Wing - Flat No
+        <select
+          [ngModel]="selectedResidentId"
+          (ngModelChange)="selectResident($event)"
+          name="selectedResidentId"
+          required
+        >
+          <option value="">Select room number</option>
+          <option *ngFor="let resident of residentService.residents()" [value]="resident.id">
+            {{ resident.buildingNumber }}
+          </option>
+        </select>
       </label>
       <label>
         ID type
@@ -105,6 +115,7 @@
               <th>Photo</th>
               <th>Name</th>
               <th>Resident</th>
+              <th>Owner mobile</th>
               <th>Purpose</th>
               <th>Contact</th>
               <th>Status</th>
@@ -125,6 +136,7 @@
                 <div class="small-note">{{ visitor.idType }} · {{ visitor.idNumber }}</div>
               </td>
               <td>{{ visitor.residentName }} · Room {{ visitor.roomNumber }}</td>
+              <td>{{ visitor.residentMobileNumber || 'Not linked' }}</td>
               <td>{{ visitor.purpose }}</td>
               <td>{{ visitor.contactNumber }}</td>
               <td><span class="status status-{{ visitor.status.toLowerCase() }}">{{ visitor.status }}</span></td>
@@ -152,6 +164,7 @@
           <div class="visitor-card-body">
             <p><strong>Purpose:</strong> {{ visitor.purpose }}</p>
             <p><strong>Contact:</strong> {{ visitor.contactNumber }}</p>
+            <p><strong>Owner mobile:</strong> {{ visitor.residentMobileNumber || 'Not linked' }}</p>
             <p><strong>ID:</strong> {{ visitor.idType }} · {{ visitor.idNumber }}</p>
             <p><strong>Requested:</strong> {{ visitor.createdAt | date:'medium' }}</p>
           </div>

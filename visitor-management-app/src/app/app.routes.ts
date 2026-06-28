@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ResidentApprovalsComponent } from './components/resident-approvals/resident-approvals.component';
+import { ResidentMasterComponent } from './components/resident-master/resident-master.component';
 import { SecurityDeskComponent } from './components/security-desk/security-desk.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -20,5 +21,11 @@ export const routes: Routes = [
     component: ResidentApprovalsComponent,
     canActivate: [authGuard],
     data: { role: 'Resident' }
+  },
+  {
+    path: 'resident-master',
+    component: ResidentMasterComponent,
+    canActivate: [authGuard],
+    data: { role: 'Admin' }
   }
 ];

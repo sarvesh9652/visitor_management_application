@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import type { VisitorRecord } from '../../models/visitor.model';
 import { AuthService } from '../../services/auth.service';
 import { VisitorService } from '../../services/visitor.service';
 
@@ -18,6 +19,23 @@ export class ResidentApprovalsComponent {
     private readonly router: Router
   ) {}
 
+  get flatOwnerMobileNumber(): string {
+    return this.authService.currentUser()?.username ?? '';
+  }
+
+  get visitorsForCurrentResident(): VisitorRecord[] {
+    const mobileNumber = this.normalizeMobileNumber(this.flatOwnerMobileNumber);
+    if (!mobileNumber) {
+      return [];
+    }
+
+    return this.visitorService
+      .visitors()
+      .filter(
+        (visitor) => this.normalizeMobileNumber(visitor.residentMobileNumber ?? '') === mobileNumber
+      );
+  }
+
   approve(id: string): void {
     this.visitorService.updateStatus(id, 'Approved');
   }
@@ -33,5 +51,9 @@ export class ResidentApprovalsComponent {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  private normalizeMobileNumber(value: string): string {
+    return value.replace(/\D/g, '');
   }
 }

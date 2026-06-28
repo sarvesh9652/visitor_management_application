@@ -6,6 +6,7 @@ export interface VisitorRecord {
   contactNumber: string;
   purpose: string;
   residentName: string;
+  residentMobileNumber?: string;
   roomNumber: string;
   idType: string;
   idNumber: string;
@@ -22,6 +23,7 @@ export interface VisitorFormInput {
   contactNumber: string;
   purpose: string;
   residentName: string;
+  residentMobileNumber?: string;
   roomNumber: string;
   idType: string;
   idNumber: string;

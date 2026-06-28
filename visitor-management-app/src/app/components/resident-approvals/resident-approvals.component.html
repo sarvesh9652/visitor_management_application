@@ -6,7 +6,7 @@
     </div>
     <div class="header-actions">
       <span class="user-badge">
-        Signed in as {{ authService.currentUser()?.username }}
+        Signed in with mobile {{ flatOwnerMobileNumber }}
         <small>({{ authService.currentUser()?.role }})</small>
       </span>
       <nav class="top-nav">
@@ -17,7 +17,7 @@
     </div>
   </header>
 
-  <div class="table-card" *ngIf="visitorService.visitors().length; else empty">
+  <div class="table-card" *ngIf="visitorsForCurrentResident.length; else empty">
     <table class="visitor-table">
       <thead>
         <tr>
@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let visitor of visitorService.visitors()">
+        <tr *ngFor="let visitor of visitorsForCurrentResident">
           <td class="photo-cell">
             <img *ngIf="visitor.imageUrl; else imagePlaceholder" [src]="visitor.imageUrl" alt="{{ visitor.fullName }} photo" />
             <ng-template #imagePlaceholder>
@@ -64,8 +64,8 @@
     </table>
   </div>
 
-  <div class="mobile-list" *ngIf="visitorService.visitors().length">
-    <div class="visitor-card" *ngFor="let visitor of visitorService.visitors()">
+  <div class="mobile-list" *ngIf="visitorsForCurrentResident.length">
+    <div class="visitor-card" *ngFor="let visitor of visitorsForCurrentResident">
       <div class="visitor-card-header">
         <div class="visitor-card-photo">
           <img *ngIf="visitor.imageUrl; else cardPlaceholder" [src]="visitor.imageUrl" alt="{{ visitor.fullName }} photo" />
@@ -100,6 +100,6 @@
   </div>
 
   <ng-template #empty>
-    <p class="empty">No requests available.</p>
+    <p class="empty">No visitor requests found for mobile {{ flatOwnerMobileNumber }}.</p>
   </ng-template>
 </section>

@@ -1,0 +1,65 @@
+<section class="dashboard-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h2>Resident master</h2>
+    </div>
+    <div class="header-actions">
+      <span class="user-badge">
+        Signed in as {{ authService.currentUser()?.username }}
+        <small>({{ authService.currentUser()?.role }})</small>
+      </span>
+      <button type="button" class="logout-action" (click)="logout()">Sign out</button>
+    </div>
+  </header>
+
+  <div class="content-grid">
+    <form class="form-card" (ngSubmit)="addResident()" #residentForm="ngForm">
+      <label>
+        Name
+        <input [(ngModel)]="form.name" name="name" required />
+      </label>
+      <label>
+        Building No - Wing - Flat No
+        <input [(ngModel)]="form.buildingNumber" name="buildingNumber" required />
+      </label>
+      <label>
+        Mobile number
+        <input
+          type="tel"
+          [(ngModel)]="form.mobileNumber"
+          name="mobileNumber"
+          required
+          pattern="[0-9+\-\s()]{7,20}"
+        />
+      </label>
+      <button type="submit" [disabled]="!residentForm.valid">Add resident</button>
+      <p class="feedback" *ngIf="message">{{ message }}</p>
+    </form>
+
+    <section class="list-card">
+      <h3>Residents</h3>
+      <div class="empty" *ngIf="!residentService.residents().length">No residents added yet.</div>
+      <div class="table-wrapper" *ngIf="residentService.residents().length">
+        <table class="resident-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Building Address</th>
+              <th>Mobile number</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let resident of residentService.residents()">
+              <td>{{ resident.name }}</td>
+              <td>{{ resident.buildingNumber }}</td>
+              <td>{{ resident.mobileNumber }}</td>
+              <td>{{ resident.createdAt | date:'medium' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>

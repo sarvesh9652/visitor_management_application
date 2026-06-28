@@ -15,10 +15,6 @@ body {
   box-sizing: border-box;
 }
 
-.mobile-bottom-nav {
-  display: none;
-}
-
 .page {
   max-width: 1180px;
   margin: 0 auto;
@@ -211,7 +207,7 @@ button.primary {
 
 @media (max-width: 900px) {
   .page {
-    padding: 24px 16px 120px;
+    padding: 24px 16px 48px;
   }
 
   .page h1,
@@ -219,42 +215,5 @@ button.primary {
   .page h3,
   .page h4 {
     font-size: clamp(1.8rem, 6vw, 2.2rem);
-  }
-
-  .mobile-bottom-nav {
-    display: flex;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    justify-content: space-between;
-    background: rgba(8, 15, 30, 0.96);
-    border-top: 1px solid rgba(148, 163, 184, 0.16);
-    padding: 10px 14px env(safe-area-inset-bottom);
-    z-index: 50;
-  }
-
-  .mobile-bottom-nav .nav-item {
-    flex: 1;
-    min-width: 0;
-    text-align: center;
-    padding: 10px 8px;
-    border-radius: 999px;
-    background: rgba(15, 23, 42, 0.95);
-    color: #cbd5e1;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  .mobile-bottom-nav .nav-item:hover,
-  .mobile-bottom-nav .nav-item:focus {
-    background: rgba(37, 99, 235, 0.16);
-    color: #f8fafc;
-  }
-
-  .mobile-bottom-nav .nav-item.active {
-    background: rgba(37, 99, 235, 0.24);
-    color: white;
   }
 }

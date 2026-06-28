@@ -6,7 +6,7 @@
 
     <form (ngSubmit)="signup()">
       <label>
-        Username
+        Username / mobile number
         <input [(ngModel)]="username" name="username" required />
       </label>
 
@@ -29,6 +29,10 @@
         <label>
           <input type="radio" name="role" [(ngModel)]="role" [value]="'Resident'" />
           Resident
+        </label>
+        <label>
+          <input type="radio" name="role" [(ngModel)]="role" [value]="'Admin'" />
+          Admin
         </label>
       </fieldset>
 

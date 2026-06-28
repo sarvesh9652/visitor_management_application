@@ -1,0 +1,166 @@
+.dashboard-shell {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.user-badge {
+  color: #cbd5e1;
+  font-weight: 700;
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+h2,
+h3 {
+  margin: 0;
+  color: #f8fafc;
+}
+
+.logout-action {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+  gap: 24px;
+  min-width: 0;
+}
+
+.form-card,
+.list-card {
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 24px;
+  padding: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  min-width: 0;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+input,
+button {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+}
+
+input {
+  background: rgba(15, 23, 42, 0.85);
+  color: #e2e8f0;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+.resident-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.resident-table th,
+.resident-table td {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
+  word-break: break-word;
+}
+
+.resident-table th {
+  color: #e2e8f0;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.empty,
+.feedback {
+  color: #94a3b8;
+}
+
+.feedback {
+  margin: 0;
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .dashboard-shell {
+    padding: 0;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card,
+  .list-card {
+    border-radius: 16px;
+    padding: 16px;
+  }
+}

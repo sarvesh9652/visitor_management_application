@@ -3,6 +3,7 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ResidentService } from '../../services/resident.service';
 import { VisitorService } from '../../services/visitor.service';
 
 @Component({
@@ -15,11 +16,12 @@ import { VisitorService } from '../../services/visitor.service';
 export class SecurityDeskComponent implements OnDestroy {
   @ViewChild('cameraPreview', { static: false }) cameraPreview?: ElementRef<HTMLVideoElement>;
   private pendingStream: MediaStream | null = null;
-  form: { fullName: string; contactNumber: string; purpose: string; residentName: string; roomNumber: string; idType: string; idNumber: string; notes: string; imageUrl?: string | null } = {
+  form: { fullName: string; contactNumber: string; purpose: string; residentName: string; residentMobileNumber?: string; roomNumber: string; idType: string; idNumber: string; notes: string; imageUrl?: string | null } = {
     fullName: '',
     contactNumber: '',
     purpose: '',
     residentName: '',
+    residentMobileNumber: '',
     roomNumber: '',
     idType: 'Emirates ID',
     idNumber: '',
@@ -30,10 +32,12 @@ export class SecurityDeskComponent implements OnDestroy {
   message: string | null = null;
   videoActive = false;
   capturedImage: string | null = null;
+  selectedResidentId = '';
   selectedFilter: 'All' | 'Pending' | 'Approved' | 'Denied' | 'Expired' = 'All';
 
   constructor(
     public readonly visitorService: VisitorService,
+    public readonly residentService: ResidentService,
     public readonly authService: AuthService,
     private readonly router: Router
   ) {}
@@ -129,6 +133,14 @@ export class SecurityDeskComponent implements OnDestroy {
     this.selectedFilter = status;
   }
 
+  selectResident(residentId: string): void {
+    const resident = this.residentService.findResident(residentId);
+    this.selectedResidentId = residentId;
+    this.form.residentName = resident?.name ?? '';
+    this.form.residentMobileNumber = resident?.mobileNumber ?? '';
+    this.form.roomNumber = resident?.buildingNumber ?? '';
+  }
+
   get filteredVisitors() {
     if (this.selectedFilter === 'All') {
       return this.visitorService.visitors();
@@ -142,6 +154,7 @@ export class SecurityDeskComponent implements OnDestroy {
       contactNumber: '',
       purpose: '',
       residentName: '',
+      residentMobileNumber: '',
       roomNumber: '',
       idType: 'Emirates ID',
       idNumber: '',
@@ -149,6 +162,7 @@ export class SecurityDeskComponent implements OnDestroy {
       imageUrl: null
     };
     this.capturedImage = null;
+    this.selectedResidentId = '';
   }
 
   logout(): void {

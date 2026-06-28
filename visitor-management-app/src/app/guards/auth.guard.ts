@@ -1,14 +1,12 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-
-type UserRole = 'Security' | 'Resident';
+import { AuthService, UserRole } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = (route, state): boolean | UrlTree => {
   const auth = inject(AuthService);
   const router = inject(Router);
   const requiredRole = route.data['role'] as UserRole | undefined;
-  const routeRole = requiredRole ?? (state.url.includes('resident-approvals') ? 'Resident' : 'Security');
+  const routeRole = requiredRole ?? getRouteRole(state.url);
 
   if (!auth.isAuthenticated) {
     return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
@@ -20,3 +18,15 @@ export const authGuard: CanActivateFn = (route, state): boolean | UrlTree => {
 
   return true;
 };
+
+function getRouteRole(url: string): UserRole {
+  if (url.includes('resident-approvals')) {
+    return 'Resident';
+  }
+
+  if (url.includes('resident-master')) {
+    return 'Admin';
+  }
+
+  return 'Security';
+}

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-type UserRole = 'Security' | 'Resident';
+export type UserRole = 'Security' | 'Resident' | 'Admin';
 const AUTH_STORAGE_KEY = 'visitor-management-auth-role-v1';
 const USER_SESSION_KEY = 'visitor-management-auth-user-v1';
 const USER_STORE_KEY = 'visitor-management-user-store-v1';
@@ -70,7 +70,7 @@ export class AuthService {
     }
 
     const stored = window.localStorage.getItem(AUTH_STORAGE_KEY);
-    return stored === 'Security' || stored === 'Resident' ? stored : null;
+    return stored === 'Security' || stored === 'Resident' || stored === 'Admin' ? stored : null;
   }
 
   private saveRole(role: UserRole): void {

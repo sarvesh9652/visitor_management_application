@@ -16,6 +16,7 @@ export class VisitorService {
       contactNumber: input.contactNumber,
       purpose: input.purpose,
       residentName: input.residentName,
+      residentMobileNumber: input.residentMobileNumber,
       roomNumber: input.roomNumber,
       idType: input.idType,
       idNumber: input.idNumber,
@@ -72,13 +73,13 @@ export class VisitorService {
 
     const raw = window.localStorage.getItem(this.storageKey);
     if (!raw) {
-      return this.createSeedVisitors();
+      return [];
     }
 
     try {
       return JSON.parse(raw) as VisitorRecord[];
     } catch {
-      return this.createSeedVisitors();
+      return [];
     }
   }
 
@@ -109,40 +110,4 @@ export class VisitorService {
     }
   }
 
-  private createSeedVisitors(): VisitorRecord[] {
-    return [
-      {
-        id: crypto.randomUUID(),
-        fullName: 'Aisha Khan',
-        contactNumber: '+971 50 111 2222',
-        purpose: 'Package delivery',
-        residentName: 'Ms. Noor',
-        roomNumber: '1205',
-        idType: 'Emirates ID',
-        idNumber: '784-1998-1234567-1',
-        notes: 'Delivery for apartment documents',
-        imageUrl: null,
-        status: 'Pending',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString()
-      },
-      {
-        id: crypto.randomUUID(),
-        fullName: 'Daniel Brooks',
-        contactNumber: '+971 55 222 3333',
-        purpose: 'Maintenance service',
-        residentName: 'Mr. Saeed',
-        roomNumber: '804',
-        idType: 'Passport',
-        idNumber: 'P1234567',
-        notes: 'Plumbing inspection',
-        imageUrl: null,
-        status: 'Approved',
-        createdAt: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
-        updatedAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
-        expiresAt: new Date(Date.now() + 1000 * 60 * 10).toISOString()
-      }
-    ];
-  }
 }
